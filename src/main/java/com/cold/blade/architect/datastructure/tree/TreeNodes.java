@@ -9,20 +9,16 @@ package com.cold.blade.architect.datastructure.tree;
  */
 public final class TreeNodes {
 
-    private static final CompleteBinaryTreeNode EMPTY_COMPLETE_BINARY_TREE_NODE = new CompleteBinaryTreeNode();
+    private static final BinaryTreeNode EMPTY_BINARY_TREE_NODE = new BinaryTreeNode(1, null);
 
     private TreeNodes() {
     }
 
-    public static CompleteBinaryTreeNode emptyCompleteBinaryTreeNode() {
-        return EMPTY_COMPLETE_BINARY_TREE_NODE;
+    public static BinaryTreeNode emptyBinaryTreeNode() {
+        return EMPTY_BINARY_TREE_NODE;
     }
 
-    public static <T> CompleteBinaryTreeNode newCompleteBinaryTreeNode() {
-        return new CompleteBinaryTreeNode<T>();
-    }
-
-    public static <T> CompleteBinaryTreeNode newCompleteBinaryTreeNode(int hierarchy, T datum) {
-        return new CompleteBinaryTreeNode<T>(hierarchy, datum);
+    public static <T> BinaryTreeNode newBinaryTreeNode(int hierarchy, T datum) {
+        return new BinaryTreeNode<>(hierarchy, datum);
     }
 }

@@ -1,9 +1,6 @@
 package com.cold.blade.architect.datastructure.tree;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * 二叉树树节点数据模型：包含父节点、左右子节点以及层级信息等
@@ -13,9 +10,6 @@ import lombok.NoArgsConstructor;
  * @date 2019/4/3
  */
 @Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class BinaryTreeNode<T> implements TreeNode<T> {
 
     private BinaryTreeNode parent;
@@ -25,6 +19,11 @@ public class BinaryTreeNode<T> implements TreeNode<T> {
 
     // data的单数形式
     private T datum;
+
+    public BinaryTreeNode(int hierarchy, T datum) {
+        this.hierarchy = hierarchy;
+        this.datum = datum;
+    }
 
     @Override
     public void setParent(TreeNode parent) {

@@ -1,77 +1,59 @@
 package com.cold.blade.architect.datastructure.tree;
 
-import java.util.Collection;
-import java.util.concurrent.atomic.LongAdder;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.LinkedList;
+import java.util.Objects;
+
+import lombok.Getter;
 
 /**
- * 完全二叉树：若设二叉树的深度为h，除第 h 层外，其它各层 (1～h-1) 的结点数都达到最大个数， 第 h 层所有的结点都连续集中在最左边，这就是完全二叉树。
+ * 完全二叉树：若设二叉树的深度为h，除第 h 层外，其它各层 (1～h-1) 的结点数都达到最大个数， 第 h 层所有的结点都连续集中在最左边，这就是完全二叉树。 Note: 由于完全二叉树不具备在删除节点的操作上的自我调整功能，因此只能保证在插入操作上的完全二叉树特性。
  *
  * @author cold_blade
  * @version 1.0
  * @date 2019/4/3
  */
+@Getter
 public final class CompleteBinaryTree<T> {
 
-    private final ReentrantLock lock = new ReentrantLock();
-
     // 完全二叉树的根节点
-    private CompleteBinaryTreeNode root = TreeNodes.emptyCompleteBinaryTreeNode();
-    private LongAdder nodeCount = new LongAdder();
-    private LongAdder hierarchy = new LongAdder();
-
-    CompleteBinaryTree(Collection<T> data) {
-        // 默认树的高度为1
-        hierarchy.increment();
-        init(data);
-    }
+    private BinaryTreeNode root = TreeNodes.emptyBinaryTreeNode();
+    private int nodeCount = 1;
 
     public BinaryTreeNode insert(T data) {
-        return null;
-    }
-
-    public void remove(BinaryTreeNode node) {
-
+        return doInsert(positionNewNode(), data);
     }
 
     public boolean isEmpty() {
         // 根节点无数据表示这是一颗空树
-        return nodeCount.longValue() == 0;
+        return Objects.isNull(root.getDatum());
     }
 
-    private void init(Collection data) {
-        if (null == data || data.isEmpty()) {
-            return;
-        }
+    public int getHierarchy() {
+        return (int) Math.ceil((Math.log(nodeCount + 1) / Math.log(2)));
     }
-
-    private void insert(CompleteBinaryTreeNode parent, T data) {
-        CompleteBinaryTreeNode child = TreeNodes.newCompleteBinaryTreeNode(parent.getHierarchy() + 1, data);
-        //
+    
+    private BinaryTreeNode doInsert(BinaryTreeNode parent, T data) {
+        BinaryTreeNode child = TreeNodes.newBinaryTreeNode(parent.getHierarchy() + 1, data);
         if (null == parent.getLeftChild()) {
             parent.setLeftChild(child);
         } else {
-            // 建立兄弟关系
-            CompleteBinaryTreeNode leftChild = (CompleteBinaryTreeNode) parent.getLeftChild();
-            leftChild.setBrother(child);
-            child.setBrother(leftChild);
-
             parent.setRightChild(child);
         }
-        nodeCount.increment();
+        nodeCount++;
+        return child;
     }
 
-    private CompleteBinaryTreeNode searchNewNodeParent() {
-        if (root == TreeNodes.emptyCompleteBinaryTreeNode()) {
-            root = TreeNodes.newCompleteBinaryTreeNode();
-            return root;
+    /**
+     * 广度优先遍历,获取待插入节点的父节点
+     */
+    private BinaryTreeNode positionNewNode() {
+        LinkedList<BinaryTreeNode> nodes = new LinkedList<>();
+        BinaryTreeNode parent = root;
+        while (Objects.nonNull(parent.getLeftChild()) && Objects.nonNull(parent.getRightChild())) {
+            nodes.addLast(parent.getLeftChild());
+            nodes.addLast(parent.getRightChild());
+            parent = nodes.pop();
         }
-        double fullBinaryTreeNodeCount = Math.pow(2, hierarchy.doubleValue()) - 1;
-        if (nodeCount.doubleValue() == fullBinaryTreeNodeCount) {
-
-        } else {
-
-        }
-        return null;
+        return parent;
     }
 }
