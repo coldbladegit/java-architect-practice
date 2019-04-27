@@ -6,7 +6,7 @@ import lombok.Data;
  * 平衡二叉树节点
  */
 @Data
-public class BlanceBinaryTreeNode<T> extends BinaryTreeNode<T> {
+public class BlanceBinaryTreeNode<T> extends DefaultBinaryTreeNode<T> {
 
     private int leftChildHierarchy;
     private int rightChildHierarchy;

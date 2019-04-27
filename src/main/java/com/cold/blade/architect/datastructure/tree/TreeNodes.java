@@ -1,5 +1,9 @@
 package com.cold.blade.architect.datastructure.tree;
 
+import com.cold.blade.architect.datastructure.immutable.tree.ImmutableBinaryTreeNode;
+
+import jdk.nashorn.internal.ir.annotations.Immutable;
+
 /**
  * 提供一些static方法实例化各种树节点实例对象
  *
@@ -9,16 +13,20 @@ package com.cold.blade.architect.datastructure.tree;
  */
 public final class TreeNodes {
 
-    private static final BinaryTreeNode EMPTY_BINARY_TREE_NODE = new BinaryTreeNode(1, null);
+    /**
+     * 静态常量，不可变节点
+     */
+    private static final BinaryTreeNode EMPTY_BINARY_TREE_NODE = ImmutableBinaryTreeNode.builder().hierarchy(1).build();
 
     private TreeNodes() {
     }
 
+    @Immutable
     public static BinaryTreeNode emptyBinaryTreeNode() {
         return EMPTY_BINARY_TREE_NODE;
     }
 
     public static <T> BinaryTreeNode newBinaryTreeNode(int hierarchy, T datum) {
-        return new BinaryTreeNode<>(hierarchy, datum);
+        return new DefaultBinaryTreeNode<>(hierarchy, datum);
     }
 }

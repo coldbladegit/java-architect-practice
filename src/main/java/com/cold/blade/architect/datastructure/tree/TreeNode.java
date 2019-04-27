@@ -9,10 +9,6 @@ package com.cold.blade.architect.datastructure.tree;
  */
 public interface TreeNode<T> {
 
-    TreeNode getParent();
-
-    void setParent(TreeNode parent);
-
     int getChildCount();
 
     T getDatum();

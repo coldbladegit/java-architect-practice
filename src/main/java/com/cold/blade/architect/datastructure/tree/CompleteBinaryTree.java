@@ -15,8 +15,8 @@ import lombok.Getter;
 @Getter
 public final class CompleteBinaryTree<T> {
 
-    // 完全二叉树的根节点
-    private BinaryTreeNode root = TreeNodes.emptyBinaryTreeNode();
+    // 完全二叉树的根节点,做为默认节点
+    private final BinaryTreeNode root = TreeNodes.newBinaryTreeNode(1, null);
     private int nodeCount = 1;
 
     public BinaryTreeNode insert(T data) {
@@ -31,7 +31,7 @@ public final class CompleteBinaryTree<T> {
     public int getHierarchy() {
         return (int) Math.ceil((Math.log(nodeCount + 1) / Math.log(2)));
     }
-    
+
     private BinaryTreeNode doInsert(BinaryTreeNode parent, T data) {
         BinaryTreeNode child = TreeNodes.newBinaryTreeNode(parent.getHierarchy() + 1, data);
         if (null == parent.getLeftChild()) {
@@ -47,11 +47,11 @@ public final class CompleteBinaryTree<T> {
      * 广度优先遍历,获取待插入节点的父节点
      */
     private BinaryTreeNode positionNewNode() {
-        LinkedList<BinaryTreeNode> nodes = new LinkedList<>();
+        LinkedList<DefaultBinaryTreeNode> nodes = new LinkedList<>();
         BinaryTreeNode parent = root;
         while (Objects.nonNull(parent.getLeftChild()) && Objects.nonNull(parent.getRightChild())) {
-            nodes.addLast(parent.getLeftChild());
-            nodes.addLast(parent.getRightChild());
+            nodes.addLast((DefaultBinaryTreeNode) parent.getLeftChild());
+            nodes.addLast((DefaultBinaryTreeNode) parent.getRightChild());
             parent = nodes.pop();
         }
         return parent;

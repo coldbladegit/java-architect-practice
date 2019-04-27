@@ -1,51 +1,26 @@
 package com.cold.blade.architect.datastructure.tree;
 
-import lombok.Data;
-
 /**
- * 二叉树树节点数据模型：包含父节点、左右子节点以及层级信息等
- *
  * @author cold_blade
  * @version 1.0
- * @date 2019/4/3
+ * @description
+ * @date 2019/4/26
  */
-@Data
-public class BinaryTreeNode<T> implements TreeNode<T> {
+public interface BinaryTreeNode<T> extends TreeNode<T> {
 
-    private BinaryTreeNode parent;
-    private BinaryTreeNode leftChild;
-    private BinaryTreeNode rightChild;
-    private int hierarchy;
+    BinaryTreeNode getParent();
 
-    // data的单数形式
-    private T datum;
+    void setParent(BinaryTreeNode parent);
 
-    public BinaryTreeNode(int hierarchy, T datum) {
-        this.hierarchy = hierarchy;
-        this.datum = datum;
-    }
+    BinaryTreeNode getLeftChild();
 
-    @Override
-    public void setParent(TreeNode parent) {
-        if (parent instanceof BinaryTreeNode) {
-            this.parent = (BinaryTreeNode) parent;
-        }
-    }
+    void setLeftChild(BinaryTreeNode child);
 
-    @Override
-    public int getChildCount() {
-        int cnt = 0;
-        if (null != leftChild) {
-            cnt++;
-        }
-        if (null != rightChild) {
-            cnt++;
-        }
-        return cnt;
-    }
+    void removeLeftChild();
 
-    @Override
-    public boolean isLeafNode() {
-        return getChildCount() == 0;
-    }
+    BinaryTreeNode getRightChild();
+
+    void setRightChild(BinaryTreeNode child);
+
+    void removeRightChild();
 }
