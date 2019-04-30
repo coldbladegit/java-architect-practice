@@ -19,7 +19,7 @@ public class DefaultBinaryTreeNode<T> implements BinaryTreeNode<T> {
     // data的单数形式
     private T datum;
 
-    public DefaultBinaryTreeNode(int hierarchy, T datum) {
+    DefaultBinaryTreeNode(int hierarchy, T datum) {
         this.hierarchy = hierarchy;
         this.datum = datum;
     }

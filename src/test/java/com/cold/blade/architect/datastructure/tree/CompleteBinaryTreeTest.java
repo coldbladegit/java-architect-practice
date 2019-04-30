@@ -1,4 +1,4 @@
-package com.cold.blade.architect.tree;
+package com.cold.blade.architect.datastructure.tree;
 
 
 import java.util.stream.IntStream;
@@ -7,8 +7,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.cold.blade.architect.BaseTest;
-import com.cold.blade.architect.datastructure.tree.CompleteBinaryTree;
-import com.cold.blade.architect.datastructure.tree.TreeFactory;
 
 public class CompleteBinaryTreeTest extends BaseTest {
 
