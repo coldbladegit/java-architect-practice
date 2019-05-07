@@ -8,22 +8,13 @@ import lombok.Data;
 @Data
 public class BalanceBinaryTreeNode<T> extends DefaultBinaryTreeNode<T> {
 
-    private int balanceFactor;
+    public static final int LEFT_HIGHER = 1;
+    public static final int EQUAL_HEIGHT = 0;
+    public static final int RIGHT_HIGHER = -1;
+
+    private int balanceFactor = EQUAL_HEIGHT;
 
     BalanceBinaryTreeNode(int hierarchy, T datum) {
         super(hierarchy, datum);
-    }
-
-    BalanceBinaryTreeNode updateBalanceFactor(BalanceBinaryTreeNode child) {
-        if (child == getLeftChild()) {
-            balanceFactor++;
-        } else {
-            balanceFactor--;
-        }
-        return this;
-    }
-
-    public boolean isUnbalanced() {
-        return Math.abs(balanceFactor) >= 2;
     }
 }
