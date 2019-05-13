@@ -9,13 +9,11 @@ import jdk.nashorn.internal.ir.annotations.Immutable;
 /**
  * @author cold_blade
  * @version 1.0
- * @description
  * @date 2019/4/26
  */
 @Immutable
 public final class ImmutableBinaryTreeNode<T> implements BinaryTreeNode {
 
-    private final BinaryTreeNode parent;
     private final BinaryTreeNode leftChild;
     private final BinaryTreeNode rightChild;
     private final int hierarchy;
@@ -23,8 +21,7 @@ public final class ImmutableBinaryTreeNode<T> implements BinaryTreeNode {
     // data的单数形式
     private final T datum;
 
-    private ImmutableBinaryTreeNode(BinaryTreeNode parent, BinaryTreeNode leftChild, BinaryTreeNode rightChild, int hierarchy, T datum) {
-        this.parent = parent;
+    private ImmutableBinaryTreeNode(BinaryTreeNode leftChild, BinaryTreeNode rightChild, int hierarchy, T datum) {
         this.leftChild = leftChild;
         this.rightChild = rightChild;
         this.hierarchy = hierarchy;
@@ -33,16 +30,6 @@ public final class ImmutableBinaryTreeNode<T> implements BinaryTreeNode {
 
     public static BinaryTreeNodeBuilder builder() {
         return new BinaryTreeNodeBuilder();
-    }
-
-    @Override
-    public BinaryTreeNode getParent() {
-        return this.parent;
-    }
-
-    @Override
-    public void setParent(BinaryTreeNode parent) {
-        throw new UnsupportedOperationException("unsupported operation");
     }
 
     @Override
@@ -88,12 +75,7 @@ public final class ImmutableBinaryTreeNode<T> implements BinaryTreeNode {
     }
 
     @Override
-    public void setLeftChild(BinaryTreeNode child) {
-        throw new UnsupportedOperationException("unsupported operation");
-    }
-
-    @Override
-    public void removeLeftChild() {
+    public BinaryTreeNode setLeftChild(BinaryTreeNode child) {
         throw new UnsupportedOperationException("unsupported operation");
     }
 
@@ -103,18 +85,12 @@ public final class ImmutableBinaryTreeNode<T> implements BinaryTreeNode {
     }
 
     @Override
-    public void setRightChild(BinaryTreeNode child) {
-        throw new UnsupportedOperationException("unsupported operation");
-    }
-
-    @Override
-    public void removeRightChild() {
+    public BinaryTreeNode setRightChild(BinaryTreeNode child) {
         throw new UnsupportedOperationException("unsupported operation");
     }
 
     public static class BinaryTreeNodeBuilder<T> {
 
-        private BinaryTreeNode parent;
         private BinaryTreeNode leftChild;
         private BinaryTreeNode rightChild;
         private int hierarchy;
@@ -122,9 +98,7 @@ public final class ImmutableBinaryTreeNode<T> implements BinaryTreeNode {
         // data的单数形式
         private T datum;
 
-        public BinaryTreeNodeBuilder parent(BinaryTreeNode parent) {
-            this.parent = parent;
-            return this;
+        public BinaryTreeNodeBuilder() {
         }
 
         public BinaryTreeNodeBuilder leftChild(BinaryTreeNode leftChild) {
@@ -148,7 +122,7 @@ public final class ImmutableBinaryTreeNode<T> implements BinaryTreeNode {
         }
 
         public ImmutableBinaryTreeNode build() {
-            return new ImmutableBinaryTreeNode(parent, leftChild, rightChild, hierarchy, datum);
+            return new ImmutableBinaryTreeNode(leftChild, rightChild, hierarchy, datum);
         }
     }
 }

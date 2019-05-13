@@ -29,4 +29,12 @@ public final class TreeNodes {
     public static <T> BinaryTreeNode newBinaryTreeNode(int hierarchy, T datum) {
         return new DefaultBinaryTreeNode<>(hierarchy, datum);
     }
+
+    public static <T> BalanceBinaryTreeNode newBalanceBinaryTreeNode(int hierarchy, T datum) {
+        return new BalanceBinaryTreeNode<>(hierarchy, datum);
+    }
+
+    public static <T> BalanceBinaryTreeNode newBalanceBinaryTreeNode(T datum) {
+        return new BalanceBinaryTreeNode<>(datum);
+    }
 }

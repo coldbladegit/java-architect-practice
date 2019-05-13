@@ -8,19 +8,11 @@ package com.cold.blade.architect.datastructure.tree;
  */
 public interface BinaryTreeNode<T> extends TreeNode<T> {
 
-    BinaryTreeNode getParent();
-
-    void setParent(BinaryTreeNode parent);
-
     BinaryTreeNode getLeftChild();
 
-    void setLeftChild(BinaryTreeNode child);
-
-    void removeLeftChild();
+    BinaryTreeNode setLeftChild(BinaryTreeNode child);
 
     BinaryTreeNode getRightChild();
 
-    void setRightChild(BinaryTreeNode child);
-
-    void removeRightChild();
+    BinaryTreeNode setRightChild(BinaryTreeNode child);
 }

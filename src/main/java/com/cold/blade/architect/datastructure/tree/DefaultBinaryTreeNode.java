@@ -1,7 +1,5 @@
 package com.cold.blade.architect.datastructure.tree;
 
-import java.util.Objects;
-
 /**
  * 二叉树树节点数据模型：包含父节点、左右子节点以及层级信息等
  *
@@ -11,7 +9,6 @@ import java.util.Objects;
  */
 public class DefaultBinaryTreeNode<T> implements BinaryTreeNode<T> {
 
-    private BinaryTreeNode parent;
     private BinaryTreeNode leftChild;
     private BinaryTreeNode rightChild;
     private int hierarchy;
@@ -24,38 +21,15 @@ public class DefaultBinaryTreeNode<T> implements BinaryTreeNode<T> {
         this.datum = datum;
     }
 
-    public void removeLeftChild() {
-        if (Objects.nonNull(leftChild)) {
-            leftChild.setParent(null);
-        }
-        leftChild = null;
-    }
-
     @Override
     public BinaryTreeNode getRightChild() {
         return this.rightChild;
     }
 
     @Override
-    public void setRightChild(BinaryTreeNode child) {
+    public BinaryTreeNode setRightChild(BinaryTreeNode child) {
         this.rightChild = child;
-    }
-
-    public void removeRightChild() {
-        if (Objects.nonNull(rightChild)) {
-            rightChild.setParent(null);
-        }
-        rightChild = null;
-    }
-
-    @Override
-    public BinaryTreeNode getParent() {
-        return this.parent;
-    }
-
-    @Override
-    public void setParent(BinaryTreeNode parent) {
-        this.parent = parent;
+        return child;
     }
 
     @Override
@@ -64,8 +38,9 @@ public class DefaultBinaryTreeNode<T> implements BinaryTreeNode<T> {
     }
 
     @Override
-    public void setLeftChild(BinaryTreeNode child) {
+    public BinaryTreeNode setLeftChild(BinaryTreeNode child) {
         this.leftChild = child;
+        return child;
     }
 
     @Override
