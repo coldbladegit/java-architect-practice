@@ -238,6 +238,7 @@ public final class BalanceBinaryTree<T extends Comparable> {
         } else {
             parent.setRightChild(childNode);
         }
+        childNode.setParent(parent);
         return ActionResult.builder().node(node).parent(parent).isLeft(isLeft).build();
     }
 
