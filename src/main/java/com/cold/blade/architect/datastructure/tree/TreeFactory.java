@@ -15,4 +15,8 @@ public final class TreeFactory {
     public static CompleteBinaryTree newCompleteBinaryTree() {
         return new CompleteBinaryTree();
     }
+
+    public static <T extends Comparable> RedBlackTree newRedBlackTree() {
+        return new RedBlackTree<T>();
+    }
 }

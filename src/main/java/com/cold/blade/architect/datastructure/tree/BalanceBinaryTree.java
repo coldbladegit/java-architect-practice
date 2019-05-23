@@ -2,6 +2,9 @@ package com.cold.blade.architect.datastructure.tree;
 
 import java.util.Objects;
 
+import com.cold.blade.architect.datastructure.tree.node.BalanceBinaryTreeNode;
+
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
@@ -25,7 +28,7 @@ public final class BalanceBinaryTree<T extends Comparable> {
             }
             return null;
         } else {
-            root = TreeNodes.newBalanceBinaryTreeNode(1, datum);
+            root = TreeNodes.newBalanceBinaryTreeNode(datum);
             return root;
         }
     }
@@ -56,31 +59,31 @@ public final class BalanceBinaryTree<T extends Comparable> {
      * @return 新根节点
      */
     protected BalanceBinaryTreeNode leftBalance(BalanceBinaryTreeNode node) {
-        BalanceBinaryTreeNode leftChild = (BalanceBinaryTreeNode) node.getLeftChild();
+        BalanceBinaryTreeNode leftChild = node.leftChild();
         // 左左情况
-        if (leftChild.getBalanceFactor() == BalanceBinaryTreeNode.LEFT_HIGHER) {
-            node.setBalanceFactor(BalanceBinaryTreeNode.EQUAL_HEIGHT);
-            leftChild.setBalanceFactor(BalanceBinaryTreeNode.EQUAL_HEIGHT);
-            return doRightRotation(node);
+        if (leftChild.balanceFactor() == BalanceBinaryTreeNode.LEFT_HIGHER) {
+            node.balanceFactor(BalanceBinaryTreeNode.EQUAL_HEIGHT);
+            leftChild.balanceFactor(BalanceBinaryTreeNode.EQUAL_HEIGHT);
+            return rotateRight(node);
         }
         // 左右情况
-        BalanceBinaryTreeNode rightChild = (BalanceBinaryTreeNode) leftChild.getRightChild();
-        if (rightChild.getBalanceFactor() == BalanceBinaryTreeNode.LEFT_HIGHER) {
-            node.setBalanceFactor(BalanceBinaryTreeNode.RIGHT_HIGHER);
-            leftChild.setBalanceFactor(BalanceBinaryTreeNode.EQUAL_HEIGHT);
-        } else if (rightChild.getBalanceFactor() == BalanceBinaryTreeNode.EQUAL_HEIGHT) {
-            node.setBalanceFactor(BalanceBinaryTreeNode.EQUAL_HEIGHT);
-            leftChild.setBalanceFactor(BalanceBinaryTreeNode.EQUAL_HEIGHT);
+        BalanceBinaryTreeNode rightChild = leftChild.rightChild();
+        if (rightChild.balanceFactor() == BalanceBinaryTreeNode.LEFT_HIGHER) {
+            node.balanceFactor(BalanceBinaryTreeNode.RIGHT_HIGHER);
+            leftChild.balanceFactor(BalanceBinaryTreeNode.EQUAL_HEIGHT);
+        } else if (rightChild.balanceFactor() == BalanceBinaryTreeNode.EQUAL_HEIGHT) {
+            node.balanceFactor(BalanceBinaryTreeNode.EQUAL_HEIGHT);
+            leftChild.balanceFactor(BalanceBinaryTreeNode.EQUAL_HEIGHT);
         } else {
-            node.setBalanceFactor(BalanceBinaryTreeNode.EQUAL_HEIGHT);
-            leftChild.setBalanceFactor(BalanceBinaryTreeNode.LEFT_HIGHER);
+            node.balanceFactor(BalanceBinaryTreeNode.EQUAL_HEIGHT);
+            leftChild.balanceFactor(BalanceBinaryTreeNode.LEFT_HIGHER);
         }
         // rightChild 最终会成为子树的新根节点
-        rightChild.setBalanceFactor(BalanceBinaryTreeNode.EQUAL_HEIGHT);
+        rightChild.balanceFactor(BalanceBinaryTreeNode.EQUAL_HEIGHT);
         // 先以leftChild节点进行左旋
-        doLeftRotate(leftChild);
+        rotateLeft(leftChild);
         // 再以node节点进行右旋
-        return doRightRotation(node);
+        return rotateRight(node);
     }
 
     /**
@@ -90,61 +93,61 @@ public final class BalanceBinaryTree<T extends Comparable> {
      * @return 新根节点
      */
     protected BalanceBinaryTreeNode rightBalance(BalanceBinaryTreeNode node) {
-        BalanceBinaryTreeNode rightChild = (BalanceBinaryTreeNode) node.getRightChild();
+        BalanceBinaryTreeNode rightChild = node.rightChild();
         // 右右的情况
-        if (rightChild.getBalanceFactor() == BalanceBinaryTreeNode.RIGHT_HIGHER) {
-            return doLeftRotate(node);
+        if (rightChild.balanceFactor() == BalanceBinaryTreeNode.RIGHT_HIGHER) {
+            return rotateLeft(node);
         }
         // 右左的情况
-        BalanceBinaryTreeNode leftChild = (BalanceBinaryTreeNode) rightChild.getLeftChild();
-        if (leftChild.getBalanceFactor() == BalanceBinaryTreeNode.LEFT_HIGHER) {
-            node.setBalanceFactor(BalanceBinaryTreeNode.EQUAL_HEIGHT);
-            rightChild.setBalanceFactor(BalanceBinaryTreeNode.RIGHT_HIGHER);
-        } else if (leftChild.getBalanceFactor() == BalanceBinaryTreeNode.EQUAL_HEIGHT) {
-            node.setBalanceFactor(BalanceBinaryTreeNode.EQUAL_HEIGHT);
-            rightChild.setBalanceFactor(BalanceBinaryTreeNode.EQUAL_HEIGHT);
+        BalanceBinaryTreeNode leftChild = rightChild.leftChild();
+        if (leftChild.balanceFactor() == BalanceBinaryTreeNode.LEFT_HIGHER) {
+            node.balanceFactor(BalanceBinaryTreeNode.EQUAL_HEIGHT);
+            rightChild.balanceFactor(BalanceBinaryTreeNode.RIGHT_HIGHER);
+        } else if (leftChild.balanceFactor() == BalanceBinaryTreeNode.EQUAL_HEIGHT) {
+            node.balanceFactor(BalanceBinaryTreeNode.EQUAL_HEIGHT);
+            rightChild.balanceFactor(BalanceBinaryTreeNode.EQUAL_HEIGHT);
         } else {
-            node.setBalanceFactor(BalanceBinaryTreeNode.LEFT_HIGHER);
-            rightChild.setBalanceFactor(BalanceBinaryTreeNode.EQUAL_HEIGHT);
+            node.balanceFactor(BalanceBinaryTreeNode.LEFT_HIGHER);
+            rightChild.balanceFactor(BalanceBinaryTreeNode.EQUAL_HEIGHT);
         }
         // 右子树的左子节点最终会成为当前子二叉树的新根节点(平衡状态)
-        leftChild.setBalanceFactor(BalanceBinaryTreeNode.EQUAL_HEIGHT);
-        doRightRotation(leftChild);
-        return doLeftRotate(node);
+        leftChild.balanceFactor(BalanceBinaryTreeNode.EQUAL_HEIGHT);
+        rotateRight(leftChild);
+        return rotateLeft(node);
+    }
+
+    private BalanceBinaryTreeNode rotateRight(BalanceBinaryTreeNode node) {
+        return rotate(node, false);
+    }
+
+    private BalanceBinaryTreeNode rotateLeft(BalanceBinaryTreeNode node) {
+        return rotate(node, true);
     }
 
     /**
-     * 左旋，该操作完成后，返回当前子树的新根节点
+     * 旋转操作，返回当前子树的新根节点
      *
      * @param node 待旋转子树的根节点
+     * @param isLeftRotation 左右旋标记
      * @return 新根节点
      */
-    private BalanceBinaryTreeNode doLeftRotate(BalanceBinaryTreeNode node) {
-        // 获取当前节点的右子节点
-        BalanceBinaryTreeNode rightChild = (BalanceBinaryTreeNode) node.getRightChild();
-        // 当前节点的右子节点设置为右子节点的左子节点
-        node.setRightChild(rightChild.getLeftChild());
-        // 右子节点的左子节点设置为当前节点
-        rightChild.setLeftChild(node);
-
-        return rightChild;
-    }
-
-    /**
-     * 右旋，该操作完成后，返回当前子树的新根节点
-     *
-     * @param node 待旋转子树的根节点
-     * @return 新根节点
-     */
-    private BalanceBinaryTreeNode doRightRotation(BalanceBinaryTreeNode node) {
-        // 获取当前节点的左子节点
-        BalanceBinaryTreeNode leftChild = (BalanceBinaryTreeNode) node.getLeftChild();
-        // 当前节点的左子节点设置为左子节点的右子节点
-        node.setLeftChild(leftChild.getRightChild());
-        // 左子节点的右子节点设置为当前节点
-        leftChild.setRightChild(node);
-
-        return leftChild;
+    protected BalanceBinaryTreeNode rotate(BalanceBinaryTreeNode node, boolean isLeftRotation) {
+        BalanceBinaryTreeNode parent = node.parent();
+        BalanceBinaryTreeNode child;
+        if (isLeftRotation) {
+            child = node.rightChild();
+            // node右子节点的左子节点成为node新的右子节点
+            node.rightChild(child.leftChild());
+            // node的父节点成为其右子节点的父节点,node成为其右子节点的新左子节点
+            child.parent(parent).leftChild(node);
+        } else {
+            child = node.leftChild();
+            // node左子节点的右子节点成为node新的左子节点
+            node.leftChild(child.rightChild());
+            // node的父节点成为其左子节点的父节点,node成为其左子节点的新右子节点
+            child.parent(parent).rightChild(node);
+        }
+        return child;
     }
 
     /**
@@ -156,25 +159,23 @@ public final class BalanceBinaryTree<T extends Comparable> {
     private ActionResult doInsert(T datum) {
         BalanceBinaryTreeNode node = root;
         do {
-            if (datum.equals(node.getDatum())) {
+            if (datum.equals(node.datum())) {
                 return null;
             }
-            if (((Comparable) node.getDatum()).compareTo(datum) < 0) {
-                if (Objects.isNull(node.getRightChild())) {
+            if (node.datum().compareTo(datum) < 0) {
+                if (Objects.isNull(node.rightChild())) {
                     return ActionResult.builder()
-                        .node((BalanceBinaryTreeNode) node.setRightChild(
-                            TreeNodes.newBalanceBinaryTreeNode(node.getHierarchy() + 1, datum)))
+                        .node(node.rightChild(TreeNodes.newBalanceBinaryTreeNode(datum)))
                         .parent(node).isLeft(false).build();
                 }
-                node = (BalanceBinaryTreeNode) node.getRightChild();
+                node = node.rightChild();
             } else {
-                if (Objects.isNull(node.getLeftChild())) {
+                if (Objects.isNull(node.leftChild())) {
                     return ActionResult.builder()
-                        .node((BalanceBinaryTreeNode) node.setLeftChild(
-                            TreeNodes.newBalanceBinaryTreeNode(node.getHierarchy() + 1, datum)))
+                        .node(node.leftChild(TreeNodes.newBalanceBinaryTreeNode(datum)))
                         .parent(node).isLeft(true).build();
                 }
-                node = (BalanceBinaryTreeNode) node.getLeftChild();
+                node = node.leftChild();
             }
         } while (Objects.nonNull(node));
         return null;
@@ -189,31 +190,31 @@ public final class BalanceBinaryTree<T extends Comparable> {
     private BalanceBinaryTreeNode positionDeletedNode(T datum) {
         BalanceBinaryTreeNode node = root;
         do {
-            if (datum.equals(node.getDatum())) {
+            if (datum.equals(node.datum())) {
                 break;
             }
-            if (((Comparable) node.getDatum()).compareTo(datum) < 0) {
-                node = (BalanceBinaryTreeNode) node.getRightChild();
+            if (node.datum().compareTo(datum) < 0) {
+                node = node.rightChild();
             } else {
-                node = (BalanceBinaryTreeNode) node.getLeftChild();
+                node = node.leftChild();
             }
         } while (Objects.nonNull(node));
 
         if (Objects.isNull(node)) {
             return null;
-        } else if (node.isLeafNode()) {
+        } else if (node.isLeaf()) {
             return node;
         } else {
             // 若将删除节点拥有两个子节点的问题转换为只有一个子节点的问题
             BalanceBinaryTreeNode deletedNode = node;
             do {
-                if (deletedNode.getBalanceFactor() == BalanceBinaryTreeNode.RIGHT_HIGHER) {
-                    deletedNode = (BalanceBinaryTreeNode) deletedNode.getRightChild();
+                if (deletedNode.balanceFactor() == BalanceBinaryTreeNode.RIGHT_HIGHER) {
+                    deletedNode = deletedNode.rightChild();
                 } else {
-                    deletedNode = (BalanceBinaryTreeNode) deletedNode.getLeftChild();
+                    deletedNode = deletedNode.leftChild();
                 }
-            } while (deletedNode.getChildCount() == 2);
-            node.setDatum(deletedNode.getDatum());
+            } while (deletedNode.isFull());
+            node.datum(deletedNode.datum());
             return deletedNode;
         }
     }
@@ -225,20 +226,18 @@ public final class BalanceBinaryTree<T extends Comparable> {
      * @return 返回{@code ActionResult}
      */
     private ActionResult doDelete(BalanceBinaryTreeNode node) {
-        BalanceBinaryTreeNode parent = node.getParent();
+        BalanceBinaryTreeNode parent = node.parent();
         if (Objects.isNull(parent)) {
             root = null;
             return ActionResult.builder().build();
         }
-        BalanceBinaryTreeNode childNode = (BalanceBinaryTreeNode) (Objects.nonNull(node.getLeftChild()) ? node.getLeftChild()
-            : node.getRightChild());
-        boolean isLeft = node.equals(parent.getLeftChild());
+        BalanceBinaryTreeNode child = Objects.nonNull(node.leftChild()) ? node.leftChild() : node.rightChild();
+        boolean isLeft = node.equals(parent.leftChild());
         if (isLeft) {
-            parent.setLeftChild(childNode);
+            parent.removeLeftChild().leftChild(child);
         } else {
-            parent.setRightChild(childNode);
+            parent.removeRightChild().rightChild(child);
         }
-        childNode.setParent(parent);
         return ActionResult.builder().node(node).parent(parent).isLeft(isLeft).build();
     }
 
@@ -252,10 +251,10 @@ public final class BalanceBinaryTree<T extends Comparable> {
     private void doBalance(BalanceBinaryTreeNode parent, boolean isLeft, boolean isDelete) {
         int balanceFactor;
         do {
-            balanceFactor = parent.getBalanceFactor();
+            balanceFactor = parent.balanceFactor();
             if (BalanceBinaryTreeNode.RIGHT_HIGHER == balanceFactor) {
                 if (isLeft ^ isDelete) {
-                    parent.setBalanceFactor(BalanceBinaryTreeNode.EQUAL_HEIGHT);
+                    parent.balanceFactor(BalanceBinaryTreeNode.EQUAL_HEIGHT);
                 } else {
                     leftBalance(parent);
                 }
@@ -264,21 +263,22 @@ public final class BalanceBinaryTree<T extends Comparable> {
                 if (isLeft ^ isDelete) {
                     rightBalance(parent);
                 } else {
-                    parent.setBalanceFactor(BalanceBinaryTreeNode.EQUAL_HEIGHT);
+                    parent.balanceFactor(BalanceBinaryTreeNode.EQUAL_HEIGHT);
                 }
                 return;
             }
-            parent.setBalanceFactor(isLeft ^ isDelete ? BalanceBinaryTreeNode.LEFT_HIGHER : BalanceBinaryTreeNode.RIGHT_HIGHER);
-            if (Objects.nonNull(parent.getParent())) {
-                isLeft = parent.equals(parent.getParent().getLeftChild());
+            parent.balanceFactor(isLeft ^ isDelete ? BalanceBinaryTreeNode.LEFT_HIGHER : BalanceBinaryTreeNode.RIGHT_HIGHER);
+            if (Objects.nonNull(parent.parent())) {
+                isLeft = parent.equals(parent.parent().leftChild());
             }
-            parent = parent.getParent();
+            parent = parent.parent();
         } while (Objects.nonNull(parent));
     }
 
     @Builder
     @NoArgsConstructor
-    private class ActionResult {
+    @AllArgsConstructor
+    private static class ActionResult {
 
         /**
          * 插入OR删除操作节点

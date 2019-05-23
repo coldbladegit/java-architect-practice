@@ -1,8 +1,7 @@
 package com.cold.blade.architect.datastructure.tree;
 
-import com.cold.blade.architect.datastructure.immutable.tree.ImmutableBinaryTreeNode;
-
-import jdk.nashorn.internal.ir.annotations.Immutable;
+import com.cold.blade.architect.datastructure.tree.node.BalanceBinaryTreeNode;
+import com.cold.blade.architect.datastructure.tree.node.CompleteBinaryTreeNode;
 
 /**
  * 提供一些static方法实例化各种树节点实例对象
@@ -13,28 +12,22 @@ import jdk.nashorn.internal.ir.annotations.Immutable;
  */
 public final class TreeNodes {
 
-    /**
-     * 静态常量，不可变节点
-     */
-    private static final BinaryTreeNode EMPTY_BINARY_TREE_NODE = ImmutableBinaryTreeNode.builder().hierarchy(1).build();
-
     private TreeNodes() {
     }
 
-    @Immutable
-    public static BinaryTreeNode emptyBinaryTreeNode() {
-        return EMPTY_BINARY_TREE_NODE;
+    public static <T> CompleteBinaryTreeNode newCompleteBinaryTreeNode() {
+        return new CompleteBinaryTreeNode<T>();
     }
 
-    public static <T> BinaryTreeNode newBinaryTreeNode(int hierarchy, T datum) {
-        return new DefaultBinaryTreeNode<>(hierarchy, datum);
+    public static <T> CompleteBinaryTreeNode newCompleteBinaryTreeNode(T datum) {
+        return new CompleteBinaryTreeNode(datum);
     }
 
-    public static <T> BalanceBinaryTreeNode newBalanceBinaryTreeNode(int hierarchy, T datum) {
-        return new BalanceBinaryTreeNode<>(hierarchy, datum);
+    public static <T extends Comparable> BalanceBinaryTreeNode newBalanceBinaryTreeNode(T datum) {
+        return new BalanceBinaryTreeNode(datum);
     }
 
-    public static <T> BalanceBinaryTreeNode newBalanceBinaryTreeNode(T datum) {
-        return new BalanceBinaryTreeNode<>(datum);
+    public static <T extends Comparable> RedBlackTreeNode newRedBlackTreeNode(T datum) {
+        return new RedBlackTreeNode(datum);
     }
 }
