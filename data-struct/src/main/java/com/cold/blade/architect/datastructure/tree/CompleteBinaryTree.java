@@ -5,7 +5,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+import org.springframework.stereotype.Component;
+
 import com.cold.blade.architect.datastructure.tree.node.CompleteBinaryTreeNode;
+import com.cold.blade.architect.datastructure.tree.node.TreeNodes;
 
 /**
  * 完全二叉树：若设二叉树的深度为h，除第 h 层外，其它各层 (1～h-1) 的结点数都达到最大个数， 第 h 层所有的结点都连续集中在最左边，这就是完全二叉树。 Note: 由于完全二叉树不具备在删除节点的操作上的自我调整功能，因此只能保证在插入操作上的完全二叉树特性。
@@ -14,6 +17,7 @@ import com.cold.blade.architect.datastructure.tree.node.CompleteBinaryTreeNode;
  * @version 1.0
  * @date 2019/4/3
  */
+@Component
 public final class CompleteBinaryTree<T> {
 
     // 完全二叉树的根节点,做为默认节点
@@ -25,6 +29,12 @@ public final class CompleteBinaryTree<T> {
             return root.datum(datum);
         }
         return doInsert(positionNewNode(), datum);
+    }
+
+    public void clear() {
+        root.datum(null);
+        root.leftChild(null).rightChild(null);
+        nodeCount = 1;
     }
 
     public boolean isEmpty() {

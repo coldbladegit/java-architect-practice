@@ -7,22 +7,19 @@ import java.util.stream.IntStream;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.cold.blade.architect.BaseTest;
 import com.cold.blade.architect.datastructure.tree.node.CompleteBinaryTreeNode;
 
 public class CompleteBinaryTreeTest extends BaseTest {
 
+    @Autowired
     private CompleteBinaryTree<Integer> completeBinaryTree;
-
-    @Override
-    public void setUp() {
-        super.setUp();
-        completeBinaryTree = TreeFactory.newCompleteBinaryTree();
-    }
 
     @Test
     public void isEmpty() {
+        completeBinaryTree.clear();
         Assert.assertTrue(completeBinaryTree.isEmpty());
     }
 
