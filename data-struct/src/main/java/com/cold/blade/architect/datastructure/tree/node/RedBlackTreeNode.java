@@ -44,6 +44,13 @@ public class RedBlackTreeNode<T extends Comparable> extends DefaultBinaryTreeNod
         return this;
     }
 
+    public RedBlackTreeNode flipColor(boolean precondition) {
+        if (precondition) {
+            this.isRed = !this.isRed;
+        }
+        return this;
+    }
+
     public boolean isRed() {
         return isRed;
     }

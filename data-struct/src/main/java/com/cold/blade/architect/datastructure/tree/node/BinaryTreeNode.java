@@ -1,9 +1,6 @@
 package com.cold.blade.architect.datastructure.tree.node;
 
 /**
- * @description
- * @author cold_blade
- * @date 2019/5/29
  * @version 1.0
  */
 public interface BinaryTreeNode {

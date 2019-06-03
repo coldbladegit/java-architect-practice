@@ -1,6 +1,7 @@
 package com.cold.blade.architect.datastructure.tree;
 
 import java.util.Objects;
+import java.util.function.Function;
 
 import org.springframework.stereotype.Component;
 
@@ -39,9 +40,12 @@ public final class BalanceBinaryTree<T extends Comparable> {
         if (isEmpty()) {
             return false;
         }
-        BalanceBinaryTreeNode node = positionDeletedNode(datum);
+        BalanceBinaryTreeNode node = search(datum);
         if (Objects.isNull(node)) {
             return false;
+        }
+        if (node.isFull()) {
+            node = replaceNode(node);
         }
         ActionResult result = doDelete(node);
         if (Objects.nonNull(result.parent)) {
@@ -151,13 +155,7 @@ public final class BalanceBinaryTree<T extends Comparable> {
         return null;
     }
 
-    /**
-     * 定位待删除节点， 定位失败返回null
-     *
-     * @param datum 待删除节点的数据
-     * @return 返回该节点OR null
-     */
-    private BalanceBinaryTreeNode positionDeletedNode(T datum) {
+    private BalanceBinaryTreeNode search(T datum) {
         BalanceBinaryTreeNode node = root;
         do {
             if (datum.equals(node.datum())) {
@@ -169,24 +167,32 @@ public final class BalanceBinaryTree<T extends Comparable> {
                 node = (BalanceBinaryTreeNode) node.leftChild();
             }
         } while (Objects.nonNull(node));
+        return node;
+    }
 
-        if (Objects.isNull(node)) {
-            return null;
-        } else if (node.isLeaf()) {
-            return node;
+    /**
+     * 将待删除的拥有两个子节点的节点替换成最多拥有一个子节点的节点
+     *
+     * @param node 待删除节点
+     * @return 返回该节点
+     */
+    private BalanceBinaryTreeNode replaceNode(BalanceBinaryTreeNode node) {
+        Function<BalanceBinaryTreeNode, BalanceBinaryTreeNode> func;
+        if (node.balanceFactor() == BalanceBinaryTreeNode.RIGHT_HIGHER) {
+            // 右子树更高，选择右子树（满足最多一个子节点的条件）最小节点
+            func = (BalanceBinaryTreeNode balanceBinaryTreeNode) -> (BalanceBinaryTreeNode) balanceBinaryTreeNode.leftChild();
         } else {
-            // 若将删除节点拥有两个子节点的问题转换为只有一个子节点的问题
-            BalanceBinaryTreeNode deletedNode = node;
-            do {
-                if (deletedNode.balanceFactor() == BalanceBinaryTreeNode.RIGHT_HIGHER) {
-                    deletedNode = (BalanceBinaryTreeNode) deletedNode.rightChild();
-                } else {
-                    deletedNode = (BalanceBinaryTreeNode) deletedNode.leftChild();
-                }
-            } while (deletedNode.isFull());
-            node.datum(deletedNode.datum());
-            return deletedNode;
+            // 左子树更高，选择左子树（满足最多一个子节点的条件）最大节点
+            func = (BalanceBinaryTreeNode balanceBinaryTreeNode) -> (BalanceBinaryTreeNode) balanceBinaryTreeNode.rightChild();
         }
+
+        BalanceBinaryTreeNode deletedNode = node;
+        do {
+            deletedNode = func.apply(deletedNode);
+        } while (deletedNode.isFull());
+        node.datum(deletedNode.datum());
+
+        return deletedNode;
     }
 
     /**

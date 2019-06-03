@@ -1,5 +1,6 @@
 package com.cold.blade.architect.datastructure.tree;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 import org.springframework.stereotype.Component;
@@ -50,45 +51,55 @@ public final class RedBlackTree<T extends Comparable> {
     private RedBlackTreeNode position(T datum) {
         RedBlackTreeNode node = root;
         do {
-            Preconditions.checkState(!node.isEqual(datum), datum.toString().concat(" is already exist"));
+            Preconditions.checkState(!node.isEqual(datum), "%s is already exist", datum);
             node = (RedBlackTreeNode) (node.isLess(datum) ? node.leftChild() : node.rightChild());
         } while (!node.isLeaf());
         return node;
     }
 
     private void doBalance(RedBlackTreeNode node) {
-        // TODO:
         do {
             RedBlackTreeNode parent = (RedBlackTreeNode) node.parent();
             if (Objects.isNull(parent)) {
                 // 根节点，只需将颜色置为黑色
-                if (node.isRed()) {
-                    node.flipColor();
-                }
+                node.flipColor(node.isRed());
                 break;
-            }
-            if (parent.isBlack()) {
+            } else if (parent.isBlack()) {
                 // 父节点为黑色，新插入节点为红色，没有破坏红黑树的性质
                 break;
             } else if (parent.isRed() && (node.uncle().isRed())) {
                 // 父节点和叔父节点均为红色(肯定有祖父节点，且祖父节点为黑色)，与祖父节点交换颜色，
                 // 若祖父节点为根节点或祖父节点的父节点是红色，不满足性质2和4，将祖父节点当做新插入节点
-                parent.flipColor();
-                node.uncle().flipColor();
-                node.grandParent().flipColor();
+                flipColor(parent, node.uncle(), node.grandParent());
                 node = node.grandParent();
             } else if (parent.isLeftChild(node) && node.grandParent().isLeftChild(parent)) {
                 // 当前节点是父节点的左子节点，父节点是祖父节点的左子节点，将父节点和祖父节点的颜色进行交换，
                 // 从根节点到叔父分支的叶节点少了一个黑色节点不满足性质5，所以需进行右旋
-                ((RedBlackTreeNode) parent.flipColor().parent()).flipColor();
-                BinaryTreeRotator.RIGHT_ROTATOR.rotate(parent);
+                flipColorAndRotate(BinaryTreeRotator.RIGHT_ROTATOR, node.grandParent(), parent, node.grandParent());
+                break;
             } else if (parent.isRightChild(node) && node.grandParent().isRightChild(parent)) {
                 // 右右与左左情况对称
-                ((RedBlackTreeNode) parent.flipColor().parent()).flipColor();
-                BinaryTreeRotator.LEFT_ROTATOR.rotate(parent);
+                flipColorAndRotate(BinaryTreeRotator.LEFT_ROTATOR, node.grandParent(), parent, node.grandParent());
+                break;
             } else if (parent.isLeftChild(node) && node.grandParent().isRightChild(parent)) {
                 // 当前节点是父节点的左子节点，父节点是祖父节点的右子节点，先转成右右的情况
+                BinaryTreeRotator.RIGHT_ROTATOR.rotate(parent);
+                node = parent;
+            } else if (parent.isRightChild(node) && node.grandParent().isLeftChild(parent)) {
+                // 当前节点是父节点的右子节点，父节点是祖父节点的左子节点，先转成左左的情况
+                BinaryTreeRotator.LEFT_ROTATOR.rotate(parent);
+                node = parent;
             }
         } while (true);
+    }
+
+    private void flipColorAndRotate(BinaryTreeRotator rotator, RedBlackTreeNode rotationalNode, RedBlackTreeNode... nodes) {
+        flipColor(nodes);
+        rotator.rotate(rotationalNode);
+    }
+
+    private void flipColor(RedBlackTreeNode... nodes) {
+        Preconditions.checkNotNull(nodes);
+        Arrays.stream(nodes).forEach(RedBlackTreeNode::flipColor);
     }
 }
