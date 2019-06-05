@@ -12,6 +12,7 @@
 
     <modules>
         <module>data-struct</module>
+        <module>reactor-practice</module>
     </modules>
 
     <groupId>com.cold.blade</groupId>
