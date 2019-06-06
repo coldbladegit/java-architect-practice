@@ -178,18 +178,20 @@ public final class BalanceBinaryTree<T extends Comparable> {
      */
     private BalanceBinaryTreeNode replaceNode(BalanceBinaryTreeNode node) {
         Function<BalanceBinaryTreeNode, BalanceBinaryTreeNode> func;
+        BalanceBinaryTreeNode deletedNode;
         if (node.balanceFactor() == BalanceBinaryTreeNode.RIGHT_HIGHER) {
-            // 右子树更高，选择右子树（满足最多一个子节点的条件）最小节点
+            // 右子树更高，选择右子树最小节点
+            deletedNode = (BalanceBinaryTreeNode) node.rightChild();
             func = (BalanceBinaryTreeNode balanceBinaryTreeNode) -> (BalanceBinaryTreeNode) balanceBinaryTreeNode.leftChild();
         } else {
-            // 左子树更高，选择左子树（满足最多一个子节点的条件）最大节点
+            // 左子树更高，选择左子树最大节点
+            deletedNode = (BalanceBinaryTreeNode) node.leftChild();
             func = (BalanceBinaryTreeNode balanceBinaryTreeNode) -> (BalanceBinaryTreeNode) balanceBinaryTreeNode.rightChild();
         }
 
-        BalanceBinaryTreeNode deletedNode = node;
-        do {
+        while (Objects.nonNull(func.apply(deletedNode))) {
             deletedNode = func.apply(deletedNode);
-        } while (deletedNode.isFull());
+        }
         node.datum(deletedNode.datum());
 
         return deletedNode;

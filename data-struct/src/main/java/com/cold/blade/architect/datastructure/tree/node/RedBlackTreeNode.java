@@ -51,6 +51,11 @@ public class RedBlackTreeNode<T extends Comparable> extends DefaultBinaryTreeNod
         return this;
     }
 
+    public RedBlackTreeNode copyColor(RedBlackTreeNode node) {
+        this.isRed = node.isRed;
+        return this;
+    }
+
     public boolean isRed() {
         return isRed;
     }
@@ -62,6 +67,10 @@ public class RedBlackTreeNode<T extends Comparable> extends DefaultBinaryTreeNod
     public RedBlackTreeNode datum(T datum) {
         this.datum = datum;
         return this;
+    }
+
+    public T datum() {
+        return datum;
     }
 
     public boolean isLess(T datum) {
@@ -79,6 +88,12 @@ public class RedBlackTreeNode<T extends Comparable> extends DefaultBinaryTreeNod
         return Objects.isNull(datum) && super.isLeaf();
     }
 
+    @Override
+    public boolean isFull() {
+        return super.isFull() && Objects.nonNull(((RedBlackTreeNode) leftChild()).datum)
+            && Objects.nonNull(((RedBlackTreeNode) rightChild()).datum);
+    }
+
     public RedBlackTreeNode autoProduceLeafNode() {
         this.leftChild(TreeNodes.newLeafRedBlackTreeNode())
             .rightChild(TreeNodes.newLeafRedBlackTreeNode());
@@ -91,5 +106,16 @@ public class RedBlackTreeNode<T extends Comparable> extends DefaultBinaryTreeNod
 
     public boolean isRightChild(RedBlackTreeNode node) {
         return node.equals(rightChild());
+    }
+
+    public void removeAllChildren() {
+        if (Objects.nonNull(leftChild())) {
+            leftChild().removeParent();
+            leftChild(null);
+        }
+        if (Objects.nonNull(rightChild())) {
+            rightChild().removeParent();
+            rightChild(null);
+        }
     }
 }
