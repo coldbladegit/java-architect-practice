@@ -1,4 +1,4 @@
-package com.cold.blade.architect.datastructure.stream;
+package com.cold.blade.reactor;
 
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
@@ -7,7 +7,7 @@ import java.util.stream.LongStream;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.cold.blade.architect.BaseTest;
+import com.cold.blade.BaseTest;
 import com.google.common.base.Stopwatch;
 
 /**

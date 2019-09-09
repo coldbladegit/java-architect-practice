@@ -1,4 +1,4 @@
-package com.cold.blade.architect.datastructure.stream;
+package com.cold.blade.reactor;
 
 import java.util.stream.IntStream;
 import java.util.stream.StreamSupport;
@@ -6,9 +6,7 @@ import java.util.stream.StreamSupport;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.cold.blade.architect.BaseTest;
-import com.cold.blade.architect.stream.WordCounter;
-import com.cold.blade.architect.stream.WordCounterSpliter;
+import com.cold.blade.BaseTest;
 
 /**
  * @version 1.0

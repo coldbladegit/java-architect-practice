@@ -1,4 +1,4 @@
-package com.cold.blade.architect.stream;
+package com.cold.blade.reactor;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

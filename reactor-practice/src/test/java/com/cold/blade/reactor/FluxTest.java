@@ -1,7 +1,6 @@
 package com.cold.blade.reactor;
 
 import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.stream.IntStream;
@@ -10,13 +9,11 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.cold.blade.BaseTest;
-import com.google.common.base.Stopwatch;
 
 import reactor.core.publisher.ConnectableFlux;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.UnicastProcessor;
-import reactor.core.scheduler.Schedulers;
 import reactor.test.StepVerifier;
 
 /**
@@ -68,12 +65,12 @@ public class FluxTest extends BaseTest {
 
     @Test
     public void testStackTrace() {
-        Mono<String> urls = Flux.just(null, "url_1", "url_2")
+        Mono<String> urls = Flux.just("url_1", "url_2")
             .checkpoint("single operator checkpoint")
             .map(String::toUpperCase)
             .take(1L).single();
         StepVerifier.create(urls)
-            .expectNext("url_1")
+            .expectNext("URL_1")
             .verifyComplete();
     }
 
@@ -141,24 +138,5 @@ public class FluxTest extends BaseTest {
         connectableFlux.subscribe(i -> System.out.println("subscriber 2: " + i));
         connectableFlux.connect();
         System.out.println("start connecting");
-    }
-
-    @Test
-    public void testParallel() throws InterruptedException {
-        Stopwatch stopwatch = Stopwatch.createStarted();
-        Flux.just("url_1", "url_2", "url_3")
-            .parallel(3)
-            .runOn(Schedulers.elastic())
-            .subscribe(url -> {
-                try {
-                    TimeUnit.SECONDS.sleep(1L);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                System.out.println(Thread.currentThread().getName() + " -> " + url);
-            });
-        TimeUnit.SECONDS.sleep(2);
-        System.out.println("cost time: " + stopwatch.stop().elapsed(TimeUnit.SECONDS));
-        TimeUnit.SECONDS.sleep(4);
     }
 }

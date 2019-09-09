@@ -1,4 +1,4 @@
-package com.cold.blade.architect.stream;
+package com.cold.blade.reactor;
 
 import java.util.function.IntSupplier;
 import java.util.stream.IntStream;
