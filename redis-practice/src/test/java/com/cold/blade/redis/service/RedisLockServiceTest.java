@@ -22,6 +22,7 @@ public class RedisLockServiceTest extends BaseTest {
         String key = "cold_blade";
         String requestId = service.lock(key).orElse(null);
         Assert.assertTrue(Objects.nonNull(requestId));
-        Assert.assertTrue(service.unLock(key, "1"));
+        Assert.assertFalse(service.unLock(key, "1"));
+        Assert.assertTrue(service.unLock(key, requestId));
     }
 }
