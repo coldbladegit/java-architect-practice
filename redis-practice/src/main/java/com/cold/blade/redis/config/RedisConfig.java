@@ -2,7 +2,6 @@ package com.cold.blade.redis.config;
 
 import java.time.Duration;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -75,10 +74,9 @@ public class RedisConfig {
     }
 
     @Bean
-    @Autowired
-    public <T> RedisTemplate<String, T> customRedisTemplate(Class<T> clazz) {
+    public <T> RedisTemplate<String, T> customRedisTemplate() {
         RedisSerializer keySerializer = RedisSerializer.string();
-        FastJsonRedisSerializer<T> valueSerializer = new FastJsonRedisSerializer(clazz);
+        FastJsonRedisSerializer<T> valueSerializer = new FastJsonRedisSerializer(Object.class);
 
         RedisTemplate<String, T> template = new RedisTemplate<>();
         template.setKeySerializer(keySerializer);
