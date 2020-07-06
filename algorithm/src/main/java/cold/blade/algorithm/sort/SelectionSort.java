@@ -37,20 +37,20 @@ public class SelectionSort<T extends Comparable<? super T>> {
             return;
         }
         int len = array.length;
-        int minIndex;
+        int keyIndex;
         T tmp;
         for (int i = 0; i < len; ++i) {
-            minIndex = i;
+            keyIndex = i;
             for (int j = i + 1; j < len; ++j) {
-                if (compare.test(array[minIndex], array[j])) {
-                    minIndex = j;
+                if (compare.test(array[keyIndex], array[j])) {
+                    keyIndex = j;
                 }
             }
-            // 一次遍历，将最小值放置于数组的遍历初始位置
-            if (minIndex != i) {
+            // 一次遍历，将最小/大值放置于数组的遍历初始位置
+            if (keyIndex != i) {
                 tmp = array[i];
-                array[i] = array[minIndex];
-                array[minIndex] = tmp;
+                array[i] = array[keyIndex];
+                array[keyIndex] = tmp;
             }
         }
     }
