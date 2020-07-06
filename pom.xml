@@ -9,6 +9,7 @@
         <module>reactor-practice</module>
         <module>redis-practice</module>
         <module>technology-study</module>
+        <module>algorithm</module>
     </modules>
 
     <groupId>com.cold.blade</groupId>
