@@ -27,6 +27,7 @@ public class InsertSort<T extends Comparable<? super T>> {
             }
             if (index != i) {
                 tmp = array[i];
+                // 通过系统内部的数组copy实现元素的移动
                 System.arraycopy(array, index, array, index + 1, i - index);
                 array[index] = tmp;
             }
