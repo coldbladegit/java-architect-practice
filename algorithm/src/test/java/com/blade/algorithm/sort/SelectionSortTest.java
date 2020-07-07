@@ -19,8 +19,8 @@ public class SelectionSortTest extends BaseTest {
     @Test
     public void sortTest() {
         Integer[] integers = {5, 2, 8, 4, 9, 1};
-        SelectionSort<Integer> sort = new SelectionSort<>();
-        sort.sort(integers);
+        SelectionSort<Integer> sorter = new SelectionSort<>();
+        sorter.sort(integers);
         Assert.assertTrue(1 == integers[0]);
         Assert.assertTrue(9 == integers[5]);
     }
@@ -28,8 +28,8 @@ public class SelectionSortTest extends BaseTest {
     @Test
     public void reverseTest() {
         Integer[] integers = {5, 2, 8, 4, 9, 1};
-        SelectionSort<Integer> sort = new SelectionSort<>();
-        sort.reverse(integers);
+        SelectionSort<Integer> sorter = new SelectionSort<>();
+        sorter.reverse(integers);
         Assert.assertTrue(9 == integers[0]);
         Assert.assertTrue(1 == integers[5]);
     }
