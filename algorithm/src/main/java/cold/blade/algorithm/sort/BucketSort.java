@@ -52,8 +52,8 @@ public final class BucketSort {
         int index = 0;
         for (int i = 0; i < bucketSize; i++) {
             List<Integer> bucket = buckets.get(i);
-            for (int j = 0; j < bucket.size(); j++) {
-                array[index++] = bucket.get(j);
+            for (Integer aBucket : bucket) {
+                array[index++] = aBucket;
             }
         }
     }
