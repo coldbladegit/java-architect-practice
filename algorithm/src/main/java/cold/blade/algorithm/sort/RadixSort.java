@@ -19,10 +19,19 @@ public final class RadixSort {
         int[] temArray = new int[array.length];
         int max = max(array);
         int exp = 1;
+        int[] sortArray = array;
         do {
-            doSort(array, temArray, exp);
+            doSort(sortArray, temArray, exp);
+            // 相互交换两个数组的值
+            array = sortArray;
+            sortArray = temArray;
+            temArray = array;
             exp *= 10;
         } while (max / exp > 0);
+        // 将排好序的数组copy回原数组
+        for (int i = 0, len = array.length; i < len; i++) {
+            array[i] = sortArray[i];
+        }
     }
 
     private static int max(int[] array) {
@@ -48,10 +57,6 @@ public final class RadixSort {
             int index = array[i] / exp % 10;
             temArray[counter[index] - 1] = array[i];
             counter[index]--;
-        }
-        // 将排好序的数组copy回原数组
-        for (int i = 0, len = array.length; i < len; i++) {
-            array[i] = temArray[i];
         }
     }
 }
