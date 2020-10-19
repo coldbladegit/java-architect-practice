@@ -37,13 +37,6 @@ public final class HeapSort {
             }
             if (len % 2 != 0) {
                 // 数组长度为奇数，则根据完全二叉树的特性，则最后一个非叶节点有两个子节点
-                if (array[parentIndex] < array[len - 1]) {
-                    ArrayUtil.swap(array, parentIndex, len);
-                }
-                len--;
-            }
-            if (len % 2 != 0) {
-                // 数组长度为奇数，则根据完全二叉树的特性，则最后一个非叶节点有两个子节点
                 if (array[parentIndex] < array[len - 2]) {
                     ArrayUtil.swap(array, parentIndex, len - 2);
                 }
