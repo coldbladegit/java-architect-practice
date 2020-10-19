@@ -18,9 +18,9 @@ public class HeapSortTest extends BaseTest {
 
     @Test
     public void test() {
-        int[] arr = {9, 8, 7, 6, 5, 4, 3, 2, 1};
+        int[] arr = {15, 10, 30, 35, 25, 20, 40, 45, 50};
         HeapSort.sort(arr);
-        Assert.assertTrue(arr[0] == 1);
-        Assert.assertTrue(arr[8] == 9);
+        Assert.assertTrue(arr[0] == 10);
+        Assert.assertTrue(arr[8] == 50);
     }
 }

@@ -19,37 +19,30 @@ public final class HeapSort {
 
     public static void sort(int[] array) {
         int rootNodeValue;
-        for (int i = array.length - 1; i > 0; i--) {
+        for (int i = array.length; i > 1; i--) {
             // 构造大根堆
             buildBigHeap(array, i);
             // 交换大根堆的根节点与数组末尾的元素
             rootNodeValue = array[0];
-            array[0] = array[i];
-            array[i] = rootNodeValue;
+            array[0] = array[i - 1];
+            array[i - 1] = rootNodeValue;
         }
     }
 
-    private static void buildBigHeap(int[] array, int end) {
-        int parentIndex;
+    private static void buildBigHeap(int[] array, int len) {
         do {
-            if (end % 2 == 0) {
-                // 叶节点的索引坐标为偶数，则根据完全二叉树的特性，该父节点一定有两个子节点
-                parentIndex = (end - 2) / 2;
-                if (array[parentIndex] < array[end]) {
-                    ArrayUtil.swap(array, parentIndex, end);
-                }
-                if (array[parentIndex] < array[end - 1]) {
-                    ArrayUtil.swap(array, parentIndex, end - 1);
-                }
-            } else {
-                parentIndex = (end - 1) / 2;
-                if (array[parentIndex] < array[end]) {
-                    ArrayUtil.swap(array, parentIndex, end);
-                }
+            int parentIndex = len / 2 - 1;
+            if (array[parentIndex] < array[len - 1]) {
+                ArrayUtil.swap(array, parentIndex, len - 1);
             }
-            end = parentIndex;
-        } while (end > 0);
+            len--;
+            if (len % 2 != 0) {
+                // 数组长度为奇数，则根据完全二叉树的特性，则最后一个非叶节点有两个子节点
+                if (array[parentIndex] < array[len - 1]) {
+                    ArrayUtil.swap(array, parentIndex, len);
+                }
+                len--;
+            }
+        } while (len > 1);
     }
-
-
 }
