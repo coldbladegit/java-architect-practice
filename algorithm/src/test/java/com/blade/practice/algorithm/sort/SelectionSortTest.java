@@ -1,11 +1,11 @@
-package com.blade.algorithm.sort;
+package com.blade.practice.algorithm.sort;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.blade.algorithm.BaseTest;
+import com.blade.practice.BaseTest;
 
-import cold.blade.algorithm.sort.SelectionSort;
+import cold.blade.practice.algorithm.sort.SelectionSort;
 
 /**
  * @Description 选择排序的单元测试

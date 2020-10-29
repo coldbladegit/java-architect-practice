@@ -1,25 +1,25 @@
-package com.blade.algorithm.sort;
+package com.blade.practice.algorithm.sort;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.blade.algorithm.BaseTest;
+import com.blade.practice.BaseTest;
 
-import cold.blade.algorithm.sort.CountSort;
+import cold.blade.practice.algorithm.sort.MergeSort;
 
 /**
- * @Description 计数排序的单元测试
+ * @Description 归并排序的单元测试
  *
  * @author cold_blade
- * @date 2020/8/25
+ * @date 2020/8/17
  * @version 1.0
  */
-public class CountSortTest extends BaseTest {
+public class MergeSortTest extends BaseTest {
 
     @Test
     public void test() {
         int[] arr = {9, 8, 7, 6, 5, 4, 3, 2, 1};
-        CountSort.sort(arr);
+        MergeSort.sort(arr);
         Assert.assertTrue(arr[0] == 1);
         Assert.assertTrue(arr[8] == 9);
     }

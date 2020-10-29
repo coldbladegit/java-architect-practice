@@ -1,11 +1,11 @@
-package com.blade.algorithm.sort;
+package com.blade.practice.algorithm.sort;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.blade.algorithm.BaseTest;
+import com.blade.practice.BaseTest;
 
-import cold.blade.algorithm.sort.QuickSort;
+import cold.blade.practice.algorithm.sort.QuickSort;
 
 /**
  * @Description 快速排序的单元测试

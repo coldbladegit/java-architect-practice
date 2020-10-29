@@ -1,11 +1,11 @@
-package com.blade.algorithm.query;
+package com.blade.practice.algorithm.query;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.blade.algorithm.BaseTest;
+import com.blade.practice.BaseTest;
 
-import cold.blade.algorithm.query.BinaryQuery;
+import cold.blade.practice.algorithm.query.BinaryQuery;
 
 /**
  * @Description 二分查找的单元测试

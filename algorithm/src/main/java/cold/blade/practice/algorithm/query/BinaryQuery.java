@@ -1,4 +1,4 @@
-package cold.blade.algorithm.query;
+package cold.blade.practice.algorithm.query;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

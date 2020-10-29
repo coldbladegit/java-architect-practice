@@ -1,4 +1,4 @@
-package cold.blade.algorithm.sort;
+package cold.blade.practice.algorithm.sort;
 
 import java.util.ArrayDeque;
 import java.util.Deque;

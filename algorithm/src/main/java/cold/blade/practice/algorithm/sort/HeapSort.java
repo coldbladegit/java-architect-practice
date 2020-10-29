@@ -1,6 +1,6 @@
-package cold.blade.algorithm.sort;
+package cold.blade.practice.algorithm.sort;
 
-import cold.blade.algorithm.util.ArrayUtil;
+import cold.blade.practice.util.ArrayUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

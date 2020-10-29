@@ -1,4 +1,4 @@
-package com.blade.algorithm;
+package com.blade.practice;
 
 import org.junit.After;
 import org.junit.Before;
