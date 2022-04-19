@@ -1,5 +1,12 @@
 package cold.blade.practice.algorithm;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import com.alibaba.fastjson.JSON;
+
 /**
  * @Description 利用动态规划算法解决最长子序列的问题
  *
@@ -8,6 +15,8 @@ package cold.blade.practice.algorithm;
  * @version 1.0
  */
 public final class DPLISPractice {
+
+    private volatile Long counter = 1L;
 
     private DPLISPractice() {
     }
@@ -39,5 +48,45 @@ public final class DPLISPractice {
         }
 
         return result;
+    }
+
+    public static void main(String[] args) {
+        List<TestClass> list = new ArrayList<>();
+        list.add(new TestClass(1, 1));
+        list.add(new TestClass(2, 3));
+        list.stream()
+            .map(TestClass::getAge)
+            .forEach(System.out::println);
+        System.out.println(String.format("cold_blade(%s : %s)", "test", null));
+
+        LocalDate day = LocalDate.now().minusDays(3);
+        System.out.println(Collections.emptyList().get(0));
+    }
+
+    private static class TestClass {
+
+        private int age;
+        private int no;
+
+        TestClass(int age, int no) {
+            this.age = age;
+            this.no = no;
+        }
+
+        public int getAge() {
+            if (age == 3) {
+                throw new RuntimeException("test");
+            }
+            return age;
+        }
+
+        public int getNo() {
+            return no;
+        }
+
+        @Override
+        public String toString() {
+            return JSON.toJSONString(this);
+        }
     }
 }
