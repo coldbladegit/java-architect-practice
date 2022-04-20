@@ -62,8 +62,17 @@ public class LRUPractice {
         return Optional.ofNullable(tail.getPrevNode().getVal());
     }
 
+    public int size() {
+        return map.size();
+    }
+
     private void pop() {
-        remove(head.getNextNode());
+        DListNode node = head.getNextNode();
+        if (node == tail) {
+            return;
+        }
+        remove(node);
+        map.remove(node.getVal(), node);
     }
 
     private void move2Tail(DListNode node) {

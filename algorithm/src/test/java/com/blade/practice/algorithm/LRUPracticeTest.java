@@ -29,5 +29,6 @@ public class LRUPracticeTest extends BaseTest {
         practice.save(9);
         Assert.assertTrue(practice.lastValue().filter(val -> val == 9).isPresent());
         Assert.assertTrue(practice.firstValue().filter(val -> val == 0).isPresent());
+        Assert.assertTrue(practice.size() == 3);
     }
 }
