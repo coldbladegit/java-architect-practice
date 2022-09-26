@@ -10,6 +10,7 @@
         <module>redis-practice</module>
         <module>technology-study</module>
         <module>algorithm</module>
+        <module>rx-practice</module>
     </modules>
 
     <groupId>com.cold.blade</groupId>
@@ -27,6 +28,8 @@
         <spring-redis.version>2.1.9.RELEASE</spring-redis.version>
         <jedis.version>2.9.0</jedis.version>
         <reactor.version>3.3.0.RELEASE</reactor.version>
+        <rx.version>1.3.8</rx.version>
+        <commons-lang3.version>3.8.1</commons-lang3.version>
     </properties>
 
     <dependencyManagement>
@@ -74,6 +77,18 @@
                 <artifactId>reactor-test</artifactId>
                 <version>${reactor.version}</version>
                 <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>io.reactivex</groupId>
+                <artifactId>rxjava</artifactId>
+                <version>${rx.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
