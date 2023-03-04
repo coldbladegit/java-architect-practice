@@ -14,7 +14,7 @@
     <artifactId>technology-study</artifactId>
 
     <properties>
-        <kafka.version>2.2.8.RELEASE</kafka.version>
+        <spring-kafka.version>2.2.8.RELEASE</spring-kafka.version>
     </properties>
 
     <dependencies>
@@ -35,6 +35,7 @@
         <dependency>
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka</artifactId>
+            <version>${spring-kafka.version}</version>
         </dependency>
 
         <dependency>
